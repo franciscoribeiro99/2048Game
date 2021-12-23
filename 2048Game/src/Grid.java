@@ -36,6 +36,49 @@ public class Grid {
 			return false;
 	}
 
+//vérifie si on peut encore faire un déplacement S'il y plus de déplacements return true
+	public boolean noMove() {
+		boolean ret = false;
+		for (int i = 0; i < tableau.length; i++) {
+			for (int j = 0; j < tableau[0].length; j++) {
+
+				// on va commencer par checker les coins du tableau sinon on généralise on est
+				// en outofbound
+				// check si on est a la pos 0,0
+				if (tableau[i][j] == tableau[0][0] && gridFinished() == true && tableau[i + 1][j] != tableau[0][0]
+						|| tableau[i][j + 1] != tableau[0][0]) {
+					ret = true;
+				}
+				// check si on est a la pos 3,0
+				if (tableau[i][j] == tableau[3][0] && gridFinished() == true && tableau[i - 1][j] != tableau[3][0]
+						|| tableau[i][j + 1] != tableau[3][0]) {
+					ret = true;
+				}
+				// check si on est a la pos 0,3
+				if (tableau[i][j] == tableau[0][3] && gridFinished() == true && tableau[i + 1][j] != tableau[0][3]
+						|| tableau[i][j - 1] != tableau[0][3]) {
+					ret = true;
+				}
+				// check si on est a la pos 3,3
+				if (tableau[i][j] == tableau[3][3] && gridFinished() == true && tableau[i - 1][j] != tableau[3][3]
+						|| tableau[i][j - 1] != tableau[3][3]) {
+					ret = true;
+				}
+				// check si on est a la pos 0,1 ou 0,2
+				if (tableau[i][j] == tableau[0][1] || tableau[i][j] == tableau[0][2] && gridFinished() == true
+						&& tableau[i - 1][j] != tableau[3][3] || tableau[i][j + 1] != tableau[3][3]) {
+					ret = true;
+				}
+
+				if (tableau[i][j] != tableau[i][j + 1] && tableau[i][j] != tableau[i + 1][j + 1]
+						&& gridFinished() == true) {
+
+				}
+			}
+		}
+		return ret;
+	}
+
 //find a random case 
 	public void randomCase() {
 		int column = 0;
@@ -56,6 +99,7 @@ public class Grid {
 	public static void main(String[] args) {
 		Grid a = new Grid();
 		a.randomCase();
+		a.gridFinished();
 	}
 
 }

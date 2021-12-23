@@ -36,7 +36,7 @@ public class Grid {
 			return false;
 	}
 
-//vérifie si on peut encore faire un déplacement S'il y plus de déplacements return true
+//vérifie si on peut encore faire un déplacement S'il y plus de déplacements return true !
 	public boolean noMove() {
 		boolean ret = false;
 		for (int i = 0; i < tableau.length; i++) {

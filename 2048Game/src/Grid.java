@@ -98,8 +98,6 @@ public class Grid {
 //test
 	public static void main(String[] args) {
 		Grid a = new Grid();
-		a.randomCase();
-		a.gridFinished();
 	}
 
 }

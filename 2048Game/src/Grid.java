@@ -1,9 +1,17 @@
+import java.awt.event.KeyEvent;
 
 public class Grid {
 	// this class will manage the grid of our game
-
+	KeyManager b = new KeyManager();
 	// create a board for the game
 	private int[][] tableau = new int[4][4];
+
+	public String displayValue(int x, int y) {
+		int a = tableau[x][y];
+		String b = String.valueOf(a);
+		return b;
+
+	}
 
 	// sert a mettre toutes les valeurs de notre tableau à 0
 	public void gridReset() {
@@ -72,7 +80,6 @@ public class Grid {
 
 				if (tableau[i][j] != tableau[i][j + 1] && tableau[i][j] != tableau[i + 1][j + 1]
 						&& gridFinished() == true) {
-
 				}
 			}
 		}
@@ -95,9 +102,80 @@ public class Grid {
 
 	}
 
+	// si on fait un mouvement il faut ajouter la valeur en question si les deux
+	// cases sont les mêmes
+	public void addcase() {
+		int a = KeyEvent.VK_UP;
+		switch (a) {
+		case KeyEvent.VK_UP:
+			for (int i = 0; i < tableau.length; i++) {
+				for (int j = 1; j < tableau[0].length; j++) {
+					if (tableau[i][j] == tableau[i][j - 1]) {
+						tableau[i][j - 1] = tableau[i][j] + tableau[i][j - 1];
+						tableau[i][j] = 0;
+					}
+				}
+			}
+			break;
+		case KeyEvent.VK_DOWN:
+			for (int i = 0; i < tableau.length; i++) {
+				for (int j = 1; j < tableau[0].length; j++) {
+					if (tableau[i][j] == tableau[i][j + 1]) {
+						tableau[i][j + 1] = tableau[i][j] + tableau[i][j + 1];
+						tableau[i][j] = 0;
+					}
+				}
+			}
+			break;
+		case KeyEvent.VK_LEFT:
+			for (int i = 0; i < tableau.length; i++) {
+				for (int j = 1; j < tableau[0].length; j++) {
+					if (tableau[i][j] == tableau[i - 1][j]) {
+						tableau[i - 1][j] = tableau[i][j] + tableau[i - 1][j];
+						tableau[i][j] = 0;
+					}
+				}
+			}
+
+			break;
+		case KeyEvent.VK_RIGHT:
+			for (int i = 0; i < tableau.length; i++) {
+				for (int j = 1; j < tableau[0].length; j++) {
+					if (tableau[i][j] == tableau[i + 1][j]) {
+						tableau[i + 1][j] = tableau[i][j] + tableau[i + 1][j];
+						tableau[i][j] = 0;
+					}
+				}
+			}
+
+			break;
+		default:
+			break;
+		}
+	}
+
+	// start case for game
+	public void startgame() {
+		int times = 0;
+		do {
+			int column = (int) (Math.random() * 4);
+			int row = (int) (Math.random() * 4);
+			if (isbusy(column, row) == true)
+				tableau[column][row] = tableau[column][row];
+			else
+				tableau[column][row] = 2;
+
+		} while (times != 2);
+	}
+
 //test
 	public static void main(String[] args) {
 		Grid a = new Grid();
+		a.gridReset();
+		a.addcase();
+
+		System.out.println(a.displayValue(0, 0));
+
 	}
 
 }

@@ -65,7 +65,8 @@ public class Grid {
 
 //vérifie si on peut encore faire un déplacement S'il y plus de déplacements return true !
 	public boolean noMove() {
-		boolean ret = false;
+
+		int checkcase = 0;
 		for (int i = 0; i < tableau.length; i++) {
 			for (int j = 0; j < tableau[0].length; j++) {
 
@@ -73,36 +74,61 @@ public class Grid {
 				// en outofbound
 				// check si on est a la pos 0,0
 				if (tableau[i][j] == tableau[0][0] && gridFinished() == true && tableau[i + 1][j] != tableau[0][0]
-						|| tableau[i][j + 1] != tableau[0][0]) {
-					ret = true;
+						&& tableau[i][j + 1] != tableau[0][0]) {
+					checkcase++;
 				}
 				// check si on est a la pos 3,0
 				if (tableau[i][j] == tableau[3][0] && gridFinished() == true && tableau[i - 1][j] != tableau[3][0]
-						|| tableau[i][j + 1] != tableau[3][0]) {
-					ret = true;
+						&& tableau[i][j + 1] != tableau[3][0]) {
+					checkcase++;
 				}
 				// check si on est a la pos 0,3
 				if (tableau[i][j] == tableau[0][3] && gridFinished() == true && tableau[i + 1][j] != tableau[0][3]
-						|| tableau[i][j - 1] != tableau[0][3]) {
-					ret = true;
+						&& tableau[i][j - 1] != tableau[0][3]) {
+					checkcase++;
 				}
 				// check si on est a la pos 3,3
 				if (tableau[i][j] == tableau[3][3] && gridFinished() == true && tableau[i - 1][j] != tableau[3][3]
-						|| tableau[i][j - 1] != tableau[3][3]) {
-					ret = true;
+						&& tableau[i][j - 1] != tableau[3][3]) {
+					checkcase++;
 				}
 				// check si on est a la pos 0,1 ou 0,2
 				if (tableau[i][j] == tableau[0][1] || tableau[i][j] == tableau[0][2] && gridFinished() == true
-						&& tableau[i - 1][j] != tableau[3][3] || tableau[i][j + 1] != tableau[3][3]) {
-					ret = true;
+						&& tableau[i + 1][j] != tableau[i][j] && tableau[i][j + 1] != tableau[i][j]
+						&& tableau[i][j - 1] != tableau[i][j]) {
+					checkcase++;
+				}
+				// check si on est a la pos 1,3 ou 2,3
+				if (tableau[i][j] == tableau[1][3] || tableau[i][j] == tableau[2][3] && gridFinished() == true
+						&& tableau[i - 1][j] != tableau[i][j] && tableau[i][j - 1] != tableau[i][j]
+						&& tableau[i][j + 1] != tableau[i][j]) {
+					checkcase++;
+				}
+				// check si on est a la pos 1,0 ou 2,0
+				if (tableau[i][j] == tableau[1][0] || tableau[i][j] == tableau[2][0] && gridFinished() == true
+						&& tableau[i - 1][j] != tableau[i][j] && tableau[i + 1][j] != tableau[i][j]
+						&& tableau[i][j + 1] != tableau[i][j]) {
+					checkcase++;
+				}
+				// check si on est a la pos 3,1 ou 3,2
+				if (tableau[i][j] == tableau[3][1] || tableau[i][j] == tableau[3][2] && gridFinished() == true
+						&& tableau[i - 1][j] != tableau[i][j] && tableau[i][j - 1] != tableau[i][j]
+						&& tableau[i][j + 1] != tableau[i][j]) {
+					checkcase++;
 				}
 
-				if (tableau[i][j] != tableau[i][j + 1] && tableau[i][j] != tableau[i + 1][j + 1]
-						&& gridFinished() == true) {
+//check toutes les autres
+				if (tableau[i][j] != tableau[1][1] || tableau[i][j] != tableau[2][1] || tableau[i][j] != tableau[1][2]
+						|| tableau[i][j] != tableau[2][2] && tableau[i][j] != tableau[i][j - 1]
+								&& tableau[i][j] != tableau[i + 1][j] && tableau[i][j] != tableau[i - 1][j]
+								&& gridFinished() == true) {
+					checkcase++;
 				}
 			}
 		}
-		return ret;
+		if (checkcase < 8)
+			return false;
+		return true;
 	}
 
 //find a random case 
@@ -175,16 +201,8 @@ public class Grid {
 
 	// start case for game
 	public void startgame() {
-		int times = 0;
-		do {
-			int column = (int) (Math.random() * 4);
-			int row = (int) (Math.random() * 4);
-			if (isbusy(column, row) == true)
-				tableau[column][row] = tableau[column][row];
-			else
-				tableau[column][row] = 2;
-
-		} while (times != 2);
+		tableau[3][1] = 2;
+		tableau[3][2] = 2;
 	}
 
 //test

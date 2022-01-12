@@ -1,19 +1,23 @@
 
 public class Game {
-	Grid a = new Grid();
-	Display display1 = new Display();
+	Grid grille = new Grid();
+	Display display1 = new Display(grille);
 
 	public void playagain() {
 		play();
 	}
 
 	public void play() {
-		a.gridReset();
-		a.startgame();
-		do {
 
-		} while (a.noMove() != true);
-		if (a.noMove() == true) {
+		grille.gridReset();
+		grille.startgame();
+		display1.DisplayLoop();
+
+		do {
+			display1.DisplayLoop();
+
+		} while (grille.noMove() != true);
+		if (grille.noMove() == true) {
 
 		}
 

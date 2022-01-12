@@ -1,23 +1,34 @@
+import java.awt.Color;
 
-public class Game {
+public class Game extends Display {
+
 	Grid grille = new Grid();
-	Display display1 = new Display(grille);
 
 	public void playagain() {
 		play();
 	}
 
 	public void play() {
-
 		grille.gridReset();
 		grille.startgame();
-		display1.DisplayLoop();
-
 		do {
-			display1.DisplayLoop();
+			display.clear();
+			DisplayTemplate();
+			for (int j = 0; j <= 3; j++) {
+				for (int i = 0; i <= 3; i++) {
+					numberColor(grille.getvalue(j, i));
+				}
+			}
+			display.setColor(Color.black);
+			displayGrid1(grille);
+			grille.addcase(keymanager());
 
-		} while (grille.noMove() != true);
-		if (grille.noMove() == true) {
+			System.out.println("hello");
+
+		} while (keymanager() != 1);// while (//grille.noMove() != true);
+		if (grille.noMove() == true)
+
+		{
 
 		}
 

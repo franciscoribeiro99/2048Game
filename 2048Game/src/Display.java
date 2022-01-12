@@ -1,17 +1,15 @@
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import hevs.graphics.FunGraphics;
 import hevs.graphics.utils.GraphicsBitmap;
 
 public class Display {
 	// Inits the graphic window
-	Grid grille = new Grid();
 	FunGraphics display = new FunGraphics(360, 500);
-	GraphicsBitmap a = new GraphicsBitmap("/marinipng.png");
-
-	public Display(Grid grille) {
-		
-	}
+	GraphicsBitmap image1 = new GraphicsBitmap("/marinipng.png");
+	int ret ;
 
 	// color for each case
 	final Color COLOR_EMPTY = new Color(204, 192, 179);
@@ -29,26 +27,17 @@ public class Display {
 	final Color COLOR_OTHER = Color.BLACK;
 	final Color COLOR_GAME_OVER = new Color(238, 228, 218);
 
-//boucle pour afficher le jeu
-	public void DisplayLoop() {
-		display.clear();
-		DisplayTemplate();
-		numberColor();
-		display.setColor(Color.black);
-		displayGrid1();
-	}
-
 	// init displayscore and init
 	public void DisplayTemplate() {
-		display.drawPicture(180, 250, a);
+		display.drawPicture(180, 250, image1);
 		display.drawString(20, 50, "2048 Game With Marini", Color.red, 30);
 	}
 
 	// display background color for different number
-	public void numberColor() {
+	public void numberColor(int value) {
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 3; j++) {
-				switch (grille.getvalue(i, j)) {
+				switch (value) {
 				case 0:
 					display.setColor(COLOR_EMPTY);
 					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
@@ -110,8 +99,41 @@ public class Display {
 
 	}
 
+	// liaison des touches
+	public int keymanager() {
+		ret = -1;
+		display.setKeyManager(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				int keyCode = e.getKeyCode();
+				switch (keyCode) {
+				case KeyEvent.VK_UP:
+					ret = 0;
+					System.out.println("up");
+					break;
+				case KeyEvent.VK_DOWN:
+					ret = 1;
+					System.out.println("down");
+					// handle down
+					break;
+				case KeyEvent.VK_LEFT:
+					ret = 2;
+					System.out.println("left");
+					// handle left
+					break;
+				case KeyEvent.VK_RIGHT:
+					ret = 3;
+					System.out.println("right");
+					// handle right
+					break;
+				}
+			}
+
+		});
+		return ret;
+	}
+
 //affiche les chiffres de chaque case
-	public void displayGrid1() {
+	public void displayGrid1(Grid grille) {
 		for (int x = 0; x <= 3; x++) {
 			for (int y = 0; y <= 3; y++) {
 				if (grille.getvalue(x, y) != 0)
@@ -121,10 +143,4 @@ public class Display {
 		}
 	}
 
-	public static void main(String[] args) {
-		Grid b = new Grid();
-
-		Display b1 = new Display(b);
-		b1.DisplayLoop();
-	}
 }

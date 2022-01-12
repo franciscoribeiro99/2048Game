@@ -1,10 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.awt.event.KeyEvent;
-
 public class Grid {
-	// this class will manage the grid of our game
-	KeyManager b = new KeyManager();
 	// create a board for the game
 	private int[][] tableau = new int[4][4];
 
@@ -52,23 +46,13 @@ public class Grid {
 			return false;
 	}
 
-//retourne la position the cellules vides
-	public List<Integer> EmptyTile() {
-		List<Integer> emptytiles = new ArrayList<>();
-		for (int i = 0; i < tableau.length; i++) {
-			for (int j = 0; j < tableau[0].length; j++) {
-			}
-
-		}
-		return emptytiles;
-	}
-
 //vérifie si on peut encore faire un déplacement S'il y plus de déplacements return true !
 	public boolean noMove() {
-
 		int checkcase = 0;
 		for (int i = 0; i < tableau.length; i++) {
 			for (int j = 0; j < tableau[0].length; j++) {
+				if (tableau[i][j] == 0)
+					return false;
 
 				// on va commencer par checker les coins du tableau sinon on généralise on est
 				// en outofbound
@@ -149,47 +133,69 @@ public class Grid {
 
 	// si on fait un mouvement il faut ajouter la valeur en question si les deux
 	// cases sont les mêmes
-	public void addcase() {
-		int a = KeyEvent.VK_UP;
-		switch (a) {
-		case KeyEvent.VK_UP:
+
+	// 0-->UP 1-->DOWN 2-->LEFT 3-->Rigth
+	public void addcase(int key) {
+
+		switch (key) {
+		// UP
+		case 0:
 			for (int i = 0; i < tableau.length; i++) {
-				for (int j = 1; j < tableau[0].length; j++) {
-					if (tableau[i][j] == tableau[i][j - 1]) {
-						tableau[i][j - 1] = tableau[i][j] + tableau[i][j - 1];
-						tableau[i][j] = 0;
+				for (int j = 0; j < tableau[0].length; j++) {
+					// vérifier si les cases au desssus de la ligne 2 on le meme chiffre que dans la
+					// case actuelle
+					if (tableau[i][j] == tableau[i][1])
+						if (tableau[i][0] == tableau[i][j])
+							tableau[i][0] = tableau[i][j] + tableau[i][0];
+					if (tableau[i][j] == tableau[i][2]) {
+						if (tableau[i][1] == 0 && tableau[i][0] == tableau[i][j])
+							tableau[i][0] = tableau[i][j] + tableau[i][0];
+						if (tableau[i][0] == 0 && tableau[i][1] == tableau[i][j])
+							tableau[i][0] = tableau[i][j] + tableau[i][1];
+						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j])
+							tableau[i][1] = tableau[i][j] + tableau[i][1];
+					}
+					if (tableau[i][j] == tableau[i][3]) {
+						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] == 0)
+							tableau[i][0] = tableau[i][j] + tableau[i][1];
+						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] != 0)
+							tableau[i][1] = tableau[i][j] + tableau[i][1];
+						if (tableau[i][1] == tableau[i][j] && tableau[i][2] == 0)
+							tableau[i][1] = tableau[i][j] + tableau[i][1];
+						if (tableau[i][1] == tableau[i][j] && tableau[i][2] == 0 && tableau[i][0] == 0)
+							tableau[i][0] = tableau[i][j] + tableau[i][1];
+
+						// vérifier
+						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j])
+							tableau[i][1] = tableau[i][j] + tableau[i][j - 2];
 					}
 				}
 			}
 			break;
-		case KeyEvent.VK_DOWN:
+
+		// down
+		case 1:
 			for (int i = 0; i < tableau.length; i++) {
 				for (int j = 1; j < tableau[0].length; j++) {
-					if (tableau[i][j] == tableau[i][j + 1]) {
-						tableau[i][j + 1] = tableau[i][j] + tableau[i][j + 1];
-						tableau[i][j] = 0;
-					}
-				}
-			}
-			break;
-		case KeyEvent.VK_LEFT:
-			for (int i = 0; i < tableau.length; i++) {
-				for (int j = 1; j < tableau[0].length; j++) {
-					if (tableau[i][j] == tableau[i - 1][j]) {
-						tableau[i - 1][j] = tableau[i][j] + tableau[i - 1][j];
-						tableau[i][j] = 0;
-					}
+
 				}
 			}
 
 			break;
-		case KeyEvent.VK_RIGHT:
+		// left
+		case 2:
 			for (int i = 0; i < tableau.length; i++) {
 				for (int j = 1; j < tableau[0].length; j++) {
-					if (tableau[i][j] == tableau[i + 1][j]) {
-						tableau[i + 1][j] = tableau[i][j] + tableau[i + 1][j];
-						tableau[i][j] = 0;
-					}
+
+				}
+			}
+
+			break;
+		// right
+		case 3:
+			for (int i = 0; i < tableau.length; i++) {
+				for (int j = 1; j < tableau[0].length; j++) {
+
 				}
 			}
 
@@ -206,13 +212,5 @@ public class Grid {
 	}
 
 //test
-	public static void main(String[] args) {
-		Grid a = new Grid();
-		a.gridReset();
-		a.addcase();
-
-		System.out.println(a.displayValue(0, 0));
-
-	}
 
 }

@@ -26,7 +26,6 @@ public class KeyManager implements KeyListener {
 	}
 
 	public static void main(String[] args) {
-		KeyManager a = new KeyManager();
 
 	}
 

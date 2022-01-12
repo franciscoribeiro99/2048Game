@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.event.KeyEvent;
 
 public class Grid {
@@ -5,6 +7,12 @@ public class Grid {
 	KeyManager b = new KeyManager();
 	// create a board for the game
 	private int[][] tableau = new int[4][4];
+
+	public int getvalue(int x, int y) {
+
+		return tableau[x][y];
+
+	}
 
 	public String displayValue(int x, int y) {
 		int a = tableau[x][y];
@@ -42,6 +50,17 @@ public class Grid {
 			return true;
 		else
 			return false;
+	}
+
+//retourne la position the cellules vides
+	public List<Integer> EmptyTile() {
+		List<Integer> emptytiles = new ArrayList<>();
+		for (int i = 0; i < tableau.length; i++) {
+			for (int j = 0; j < tableau[0].length; j++) {
+			}
+
+		}
+		return emptytiles;
 	}
 
 //vérifie si on peut encore faire un déplacement S'il y plus de déplacements return true !

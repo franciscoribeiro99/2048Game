@@ -144,28 +144,52 @@ public class Grid {
 				for (int j = 0; j < tableau[0].length; j++) {
 					// vérifier si les cases au desssus de la ligne 2 on le meme chiffre que dans la
 					// case actuelle
-					if (tableau[i][j] == tableau[i][1])
-						if (tableau[i][0] == tableau[i][j])
+					if (tableau[i][j] == tableau[i][1] && tableau[i][j] != 0)
+						if (tableau[i][0] == tableau[i][j]) {
 							tableau[i][0] = tableau[i][j] + tableau[i][0];
-					if (tableau[i][j] == tableau[i][2]) {
-						if (tableau[i][1] == 0 && tableau[i][0] == tableau[i][j])
+							tableau[i][j] = 0;
+
+						}
+					if (tableau[i][j] == tableau[i][2] && tableau[i][j] != 0) {
+						if (tableau[i][1] == 0 && tableau[i][0] == tableau[i][j]) {
 							tableau[i][0] = tableau[i][j] + tableau[i][0];
-						if (tableau[i][0] == 0 && tableau[i][1] == tableau[i][j])
+							tableau[i][j] = 0;
+						}
+						if (tableau[i][0] == 0 && tableau[i][1] == tableau[i][j]) {
 							tableau[i][0] = tableau[i][j] + tableau[i][1];
-						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j])
+							tableau[i][j] = 0;
+						}
+						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j]) {
 							tableau[i][1] = tableau[i][j] + tableau[i][1];
+							tableau[i][j] = 0;
+						}
 					}
-					if (tableau[i][j] == tableau[i][3]) {
-						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] == 0)
+
+					if (tableau[i][j] == tableau[i][3] && tableau[i][j] != 0) {
+						
+						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] == 0) {
 							tableau[i][0] = tableau[i][j] + tableau[i][1];
-						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] != 0)
+							tableau[i][j] = 0;
+							tableau[i][1] = 0;
+						}
+						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] != 0) {
 							tableau[i][1] = tableau[i][j] + tableau[i][1];
-						if (tableau[i][1] == tableau[i][j] && tableau[i][2] == 0)
-							tableau[i][1] = tableau[i][j] + tableau[i][1];
+							tableau[i][j] = 0;
+						}
+						if (tableau[i][2] == tableau[i][j] && tableau[i][1] == 0 && tableau[i][0] == 0) {
+							tableau[i][0] = tableau[i][2] + tableau[i][j];
+							tableau[i][j] = 0;
+							tableau[i][2] = 0;
+						}
+						if (tableau[i][2] == tableau[i][j] && tableau[i][2] == 0 && tableau[i][1] != 0
+								&& tableau[i][2] == 0) {
+							tableau[i][0] = tableau[i][2] + tableau[i][j];
+							tableau[i][j] = 0;
+							tableau[i][2] = 0;
+						}
 						if (tableau[i][1] == tableau[i][j] && tableau[i][2] == 0 && tableau[i][0] == 0)
 							tableau[i][0] = tableau[i][j] + tableau[i][1];
 
-						// vérifier
 						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j])
 							tableau[i][1] = tableau[i][j] + tableau[i][j - 2];
 					}

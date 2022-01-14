@@ -1,11 +1,13 @@
+
 public class Grid {
 	// create a board for the game
 	private int[][] tableau = new int[4][4];
+	int bord = 0;
+	int value;
+	int score;
 
 	public int getvalue(int x, int y) {
-
 		return tableau[x][y];
-
 	}
 
 	public String displayValue(int x, int y) {
@@ -13,6 +15,16 @@ public class Grid {
 		String b = String.valueOf(a);
 		return b;
 
+	}
+
+	public void displayGrid() {
+		for (int i = 0; i < tableau.length; i++) {
+			for (int j = 0; j < tableau.length; j++) {
+				System.out.print(displayValue(j, i) + " ");
+			}
+			System.out.println();
+
+		}
 	}
 
 	// sert a mettre toutes les valeurs de notre tableau à 0
@@ -131,68 +143,121 @@ public class Grid {
 
 	}
 
+//move up
+	public void up() {
+		for (int i = 0; i <= 3; i++) {
+			bord = 0;
+			for (int j = 0; j <= 3; j++) {
+				if (getvalue(i, j) != 0) {
+					if (bord <= j) {
+						moveVert(j, i, 0);
+					}
+				}
+			}
+		}
+
+	}
+
+//move down
+	public void down() {
+		for (int i = 0; i <= 3; i++) {
+			bord = 3;
+			for (int j = 3; j >= 0; j--) {
+				if (getvalue(i, j) != 0) {
+					if (bord >= j) {
+						moveVert(j, i, 1);
+					}
+				}
+			}
+		}
+	}
+
+//mouvements verticaux
+	private void moveVert(int row, int col, int direction) {
+
+		int initial = tableau[bord][col];
+		int compare = tableau[row][col];
+
+		if (initial == 0 || initial == compare) {
+			if (row > bord || (direction == 1 && row < bord)) {
+				int caseValue = initial + compare;
+				if (initial != 0)
+					score += caseValue;
+				tableau[bord][col] = caseValue;
+				tableau[row][col] = 0;
+			}
+		} else {
+			if (direction == 1)
+				bord--;
+			else
+				bord++;
+			moveVert(row, col, direction);
+		}
+
+	}
+
+	// move left
+	public void left() {
+		for (int i = 0; i <= 3; i++) {
+			bord = 0;
+			for (int j = 0; j <= 3; j++) {
+				if (getvalue(i, j) != 0)
+					if (bord <= j)
+						moveHori(i, j, 2);
+			}
+		}
+	}
+
+	// move right
+	public void right() {
+		for (int i = 0; i <= 3; i++) {
+			bord = 0;
+			for (int j = 3; j >= 0; j--) {
+				if (getvalue(i, j) != 0)
+					if (bord <= j)
+						moveHori(i, j, 3);
+			}
+		}
+	}
+
+	// mouvements verticaux
+	private void moveHori(int row, int col, int direction) {
+
+		int initial = tableau[bord][col];
+
+		int compare = tableau[row][col];
+
+		if (initial == 0 || initial == compare) {
+			if (row > bord || (direction == 3 && col < bord)) {
+				int caseValue = initial + compare;
+				if (initial != 0)
+					score += caseValue;
+				tableau[bord][col] = caseValue;
+				tableau[row][col] = 0;
+			}
+		} else {
+			if (direction == 3)
+				bord--;
+			else
+				bord++;
+			moveHori(row, col, direction);
+		}
+
+	}
+
 	// si on fait un mouvement il faut ajouter la valeur en question si les deux
 	// cases sont les mêmes
 
 	// 0-->UP 1-->DOWN 2-->LEFT 3-->Rigth
 	public void addcase(int key) {
-
 		switch (key) {
 		// UP
 		case 0:
 			for (int i = 0; i < tableau.length; i++) {
 				for (int j = 0; j < tableau[0].length; j++) {
-					// vérifier si les cases au desssus de la ligne 2 on le meme chiffre que dans la
-					// case actuelle
-					if (tableau[i][j] == tableau[i][1] && tableau[i][j] != 0)
-						if (tableau[i][0] == tableau[i][j]) {
-							tableau[i][0] = tableau[i][j] + tableau[i][0];
-							tableau[i][j] = 0;
-
-						}
-					if (tableau[i][j] == tableau[i][2] && tableau[i][j] != 0) {
-						if (tableau[i][1] == 0 && tableau[i][0] == tableau[i][j]) {
-							tableau[i][0] = tableau[i][j] + tableau[i][0];
-							tableau[i][j] = 0;
-						}
-						if (tableau[i][0] == 0 && tableau[i][1] == tableau[i][j]) {
-							tableau[i][0] = tableau[i][j] + tableau[i][1];
-							tableau[i][j] = 0;
-						}
-						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j]) {
-							tableau[i][1] = tableau[i][j] + tableau[i][1];
-							tableau[i][j] = 0;
-						}
-					}
-
-					if (tableau[i][j] == tableau[i][3] && tableau[i][j] != 0) {
-						
-						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] == 0) {
-							tableau[i][0] = tableau[i][j] + tableau[i][1];
-							tableau[i][j] = 0;
-							tableau[i][1] = 0;
-						}
-						if (tableau[i][2] == 0 && tableau[i][1] == tableau[i][j] && tableau[i][0] != 0) {
-							tableau[i][1] = tableau[i][j] + tableau[i][1];
-							tableau[i][j] = 0;
-						}
-						if (tableau[i][2] == tableau[i][j] && tableau[i][1] == 0 && tableau[i][0] == 0) {
-							tableau[i][0] = tableau[i][2] + tableau[i][j];
-							tableau[i][j] = 0;
-							tableau[i][2] = 0;
-						}
-						if (tableau[i][2] == tableau[i][j] && tableau[i][2] == 0 && tableau[i][1] != 0
-								&& tableau[i][2] == 0) {
-							tableau[i][0] = tableau[i][2] + tableau[i][j];
-							tableau[i][j] = 0;
-							tableau[i][2] = 0;
-						}
-						if (tableau[i][1] == tableau[i][j] && tableau[i][2] == 0 && tableau[i][0] == 0)
-							tableau[i][0] = tableau[i][j] + tableau[i][1];
-
-						if (tableau[i][0] != 0 && tableau[i][1] == tableau[i][j])
-							tableau[i][1] = tableau[i][j] + tableau[i][j - 2];
-					}
+					up();
+					randomCase();
+					displayGrid();
 				}
 			}
 			break;
@@ -201,7 +266,9 @@ public class Grid {
 		case 1:
 			for (int i = 0; i < tableau.length; i++) {
 				for (int j = 1; j < tableau[0].length; j++) {
-
+					down();
+					randomCase();
+					displayGrid();
 				}
 			}
 
@@ -210,7 +277,9 @@ public class Grid {
 		case 2:
 			for (int i = 0; i < tableau.length; i++) {
 				for (int j = 1; j < tableau[0].length; j++) {
-
+					left();
+					randomCase();
+					displayGrid();
 				}
 			}
 
@@ -219,7 +288,9 @@ public class Grid {
 		case 3:
 			for (int i = 0; i < tableau.length; i++) {
 				for (int j = 1; j < tableau[0].length; j++) {
-
+					right();
+					randomCase();
+					displayGrid();
 				}
 			}
 
@@ -229,12 +300,16 @@ public class Grid {
 		}
 	}
 
-	// start case for game
-	public void startgame() {
-		tableau[3][1] = 2;
+	public void startGame() {
+
+		tableau[3][3] = 2;
 		tableau[3][2] = 2;
 	}
 
-//test
-
+	public void playLoop() {
+		gridReset();
+		startGame();
+		displayGrid();
+	}
 }
+//test

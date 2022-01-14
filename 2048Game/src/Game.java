@@ -1,5 +1,4 @@
 
-
 public class Game {
 
 	Grid grille = new Grid();
@@ -10,11 +9,10 @@ public class Game {
 	}
 
 	public void play() {
+		window.init();
+		grille.playLoop();
 		window.render();
-		grille.gridReset();
-		grille.startgame();
-		System.out.println("hello");
-
+		
 	}
 
 }

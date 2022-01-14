@@ -6,6 +6,13 @@ import hevs.graphics.FunGraphics;
 import hevs.graphics.utils.GraphicsBitmap;
 
 public class Display {
+
+	// Inits the graphic window
+	Grid grille;
+	FunGraphics display = new FunGraphics(360, 500);
+	GraphicsBitmap image1 = new GraphicsBitmap("/marinipng.png");
+	int ret;
+
 	// liaison des touches
 	public Display(Grid grille) {
 		this.grille = grille;
@@ -14,22 +21,26 @@ public class Display {
 				int keyCode = e.getKeyCode();
 				switch (keyCode) {
 				case KeyEvent.VK_UP:
+					render();
 					grille.addcase(0);
 					System.out.println("up");
 					break;
 				case KeyEvent.VK_DOWN:
+					render();
 					grille.addcase(1);
 					ret = 1;
 					System.out.println("down");
 					// handle down
 					break;
 				case KeyEvent.VK_LEFT:
+					render();
 					grille.addcase(2);
 					ret = 2;
 					System.out.println("left");
 					// handle left
 					break;
 				case KeyEvent.VK_RIGHT:
+					render();
 					grille.addcase(3);
 					ret = 3;
 					System.out.println("right");
@@ -39,12 +50,6 @@ public class Display {
 			}
 		});
 	}
-
-	// Inits the graphic window
-	Grid grille;
-	FunGraphics display = new FunGraphics(360, 500);
-	GraphicsBitmap image1 = new GraphicsBitmap("/marinipng.png");
-	int ret;
 
 	// color for each case
 	final Color COLOR_EMPTY = new Color(204, 192, 179);
@@ -69,9 +74,10 @@ public class Display {
 	}
 
 	// display background color for different number
-	private void numberColor(int value) {
+	private void numberColor() {
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 3; j++) {
+				int value = grille.getvalue(i, j);
 				switch (value) {
 				case 0:
 					display.setColor(COLOR_EMPTY);
@@ -134,21 +140,26 @@ public class Display {
 
 	}
 
-//affiche les chiffres de chaque case
-	private void displayGrid1(Grid grille) {
+//affiche les chiffres et couleurs de chaque case
+	private void displayGridGraphic(Grid grille) {
 		for (int x = 0; x <= 3; x++) {
 			for (int y = 0; y <= 3; y++) {
-				if (grille.getvalue(x, y) != 0)
+				if (grille.getvalue(x, y) != 0) {
 					display.drawString(28 + (x + 1) * 60, 180 + (y + 1) * 60, grille.displayValue(x, y), Color.black,
 							20);
+				}
 			}
 		}
 	}
 
 	public void render() {
-		DisplayTemplate();
-		displayGrid1(grille);
+		numberColor();
+		displayGridGraphic(grille);
 		
+	}
 
+	public void init() {
+		display.clear();
+		DisplayTemplate();
 	}
 }

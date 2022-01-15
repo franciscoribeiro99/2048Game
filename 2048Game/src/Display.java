@@ -21,29 +21,31 @@ public class Display {
 				int keyCode = e.getKeyCode();
 				switch (keyCode) {
 				case KeyEvent.VK_UP:
-					render();
-					grille.addcase(0);
+					ret = 0;
 					System.out.println("up");
+					grille.up1();
+
+					render();
 					break;
 				case KeyEvent.VK_DOWN:
-					render();
-					grille.addcase(1);
-					ret = 1;
+
+					grille.down();
 					System.out.println("down");
+					ret = 1;
 					// handle down
 					break;
 				case KeyEvent.VK_LEFT:
-					render();
-					grille.addcase(2);
-					ret = 2;
+
+					grille.left();
 					System.out.println("left");
+					ret = 2;
+
 					// handle left
 					break;
 				case KeyEvent.VK_RIGHT:
-					render();
-					grille.addcase(3);
-					ret = 3;
 					System.out.println("right");
+					grille.right();
+					ret = 3;
 					// handle right
 					break;
 				}
@@ -73,11 +75,18 @@ public class Display {
 		display.drawString(20, 50, "2048 Game With Marini", Color.red, 30);
 	}
 
+	public void displayScore() {
+		display.setColor(Color.cyan);
+		display.drawFillRect(200, 60, 130, 100);
+		display.drawString(210, 100, "SCORE", Color.black, 30);
+		display.drawString(250, 150, grille.displayScore(), Color.black, 30);
+	}
+
 	// display background color for different number
 	private void numberColor() {
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 3; j++) {
-				int value = grille.getvalue(i, j);
+				int value = grille.getValue(i, j);
 				switch (value) {
 				case 0:
 					display.setColor(COLOR_EMPTY);
@@ -140,11 +149,11 @@ public class Display {
 
 	}
 
-//affiche les chiffres et couleurs de chaque case
+//affiche les chiffres 
 	private void displayGridGraphic(Grid grille) {
 		for (int x = 0; x <= 3; x++) {
 			for (int y = 0; y <= 3; y++) {
-				if (grille.getvalue(x, y) != 0) {
+				if (grille.getValue(y, x) != 0) {
 					display.drawString(28 + (x + 1) * 60, 180 + (y + 1) * 60, grille.displayValue(x, y), Color.black,
 							20);
 				}
@@ -155,11 +164,12 @@ public class Display {
 	public void render() {
 		numberColor();
 		displayGridGraphic(grille);
-		
+
 	}
 
 	public void init() {
 		display.clear();
 		DisplayTemplate();
+		displayScore();
 	}
 }

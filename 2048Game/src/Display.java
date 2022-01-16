@@ -21,31 +21,34 @@ public class Display {
 				int keyCode = e.getKeyCode();
 				switch (keyCode) {
 				case KeyEvent.VK_UP:
-					ret = 0;
+					grille.moveUp();
 					System.out.println("up");
-					grille.up1();
-
+					grille.randomCase();
 					render();
+
 					break;
 				case KeyEvent.VK_DOWN:
-
-					grille.down();
+					grille.moveDown();
 					System.out.println("down");
-					ret = 1;
+					grille.randomCase();
+					render();
+
 					// handle down
 					break;
 				case KeyEvent.VK_LEFT:
-
-					grille.left();
+					grille.moveLeft();
 					System.out.println("left");
-					ret = 2;
+					grille.randomCase();
+					render();
 
 					// handle left
 					break;
 				case KeyEvent.VK_RIGHT:
+					grille.moveRight();
 					System.out.println("right");
-					grille.right();
-					ret = 3;
+					grille.randomCase();
+					render();
+
 					// handle right
 					break;
 				}
@@ -79,14 +82,14 @@ public class Display {
 		display.setColor(Color.cyan);
 		display.drawFillRect(200, 60, 130, 100);
 		display.drawString(210, 100, "SCORE", Color.black, 30);
-		display.drawString(250, 150, grille.displayScore(), Color.black, 30);
+		display.drawString(230, 150, grille.displayScore(), Color.black, 30);
 	}
 
 	// display background color for different number
 	private void numberColor() {
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 3; j++) {
-				int value = grille.getValue(i, j);
+				int value = grille.getValue(j, i);
 				switch (value) {
 				case 0:
 					display.setColor(COLOR_EMPTY);
@@ -154,6 +157,7 @@ public class Display {
 		for (int x = 0; x <= 3; x++) {
 			for (int y = 0; y <= 3; y++) {
 				if (grille.getValue(y, x) != 0) {
+
 					display.drawString(28 + (x + 1) * 60, 180 + (y + 1) * 60, grille.displayValue(x, y), Color.black,
 							20);
 				}
@@ -164,6 +168,7 @@ public class Display {
 	public void render() {
 		numberColor();
 		displayGridGraphic(grille);
+		displayScore();
 
 	}
 

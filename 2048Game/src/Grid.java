@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-
 
 public class Grid {
 	// create a board for the game
@@ -153,224 +151,242 @@ public class Grid {
 		return true;
 	}
 
-	// move up
-	public void up1() {
-		int moves = 0;
-		for (int i = 0; i <= 3; i++) {
-			ArrayList<Integer> changed = new ArrayList<Integer>(2);
-			for (int j = 0; j < 3; j++) {
-				int fin = j + 1;
-				if (tableau[fin][i].getTileValue() != 0) {
-					boolean moved = false;
-					for (int k = j; k >= 0; k--) {
-						if (tableau[k][i].getTileValue() == 0) {
-							tableau[k][i].setValue(tableau[fin][i].getTileValue());
-							tableau[fin][i].setValue(0);
-							fin--;
-						} else {
-							if (tableau[fin][i].getTileValue() == tableau[k][i].getTileValue()
-									&& !changed.contains(k)) {
-								tableau[k][i].setValue(tableau[fin][i].getTileValue() * 2);
-								changed.add(k);
-								moved = true;
+///moveUp
+	public void moveUp() {
+		for (int row = 0; row < 4; row++) {
+			int count = 0;
+			for (int col = 0; col < 4; col++) {
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[row][count].setValue(tableau[row][col].getTileValue());
 
-							}
-							break;
-						}
+					if (count != col) {
+						tableau[row][col].setValue(0);
 					}
-					if (moved)
-						moves++;
+					count++;
 				}
 			}
 		}
-		displayGrid();
-	}
+		for (int row = 0; row < 4; row++) {
+			for (int col = 0; col < 3; col++) {
+				if (tableau[row][col].getTileValue() == tableau[row][col + 1].getTileValue())
+				// add the two tiles with the same value
+				{
+					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row][col + 1].getTileValue());
+					tableau[row][col + 1].setValue(0);
+					// update the score ONCE!
+					int sum = tableau[row][col].getTileValue();
+					score += sum;
 
-//move up
-	public void up() {
-		for (int i = 0; i <= 3; i++) {
-			bord = 0;
-			for (int j = 1; j <= 3; j++) {
-				if (tableau[j][i].getTileValue() != 0) {
-					if (bord <= j) {
-						// moveVert(j, i, 0);
-						moveVert1(i, j, 0);
-					}
+					break;
+
 				}
 			}
 		}
-		displayGrid();
-	}
+		for (int row = 0; row < 4; row++) {
+			int count = 0;
+			for (int col = 0; col < 4; col++)
 
-//move down
-	public void down() {
-		for (int i = 0; i <= 3; i++) {
-			bord = 3;
-			for (int j = 3; j >= 0; j--) {
-				if (tableau[j][i].getTileValue() != 0) {
-					if (bord >= j) {
-						moveVert(j, i, 1);
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[row][0 + count].setValue(tableau[row][col].getTileValue());
+					// Empty the original tile position once tile is moved
+					if (count != col) {
+						tableau[row][col].setValue(0);
 					}
-				}
-			}
-		}
-		displayGrid();
-	}
-
-	private void moveVert1(int x, int y, int direction) {
-		if (direction == 0) {
-			for (int i = 0; i >= y; i++) {
-				if (tableau[x][y - i].getTileValue() == 0) {
-					if (tableau[x][y - i].getTileValue() == 0) {
-						if (tableau[x][y - 1].getTileValue() == 0) {
-							tableau[x][y - 1].setValue(tableau[x][y].getTileValue());
-						}
-
-					} else if (tableau[x][y - i].getTileValue() == tableau[x][y].getTileValue()) {
-						int newvalue = tableau[x][y - i].getTileValue() + tableau[x][y].getTileValue();
-						tableau[x][y - 2].setValue(newvalue);
-					}
-				}
-				if (tableau[x][y - i].getTileValue() == tableau[x][y].getTileValue()) {
-					int newY = y - i;
-					int newvalue1 = tableau[x][y - i].getTileValue() + tableau[x][y].getTileValue();
-					for (int j = newY; j >= 1; j++) {
-						if (tableau[x][j - 1].getTileValue() == 0) {
-							tableau[x][j - 1].setValue(newvalue1);
-							tableau[x][y - i].setValue(0);
-							tableau[x][y].setValue(newvalue1);
-
-						}
-
-					}
-
+					count++;
 				}
 			}
 
 		}
+
 	}
 
-//mouvements verticaux
-	private void moveVert(int x, int y, int direction) {
-		Tile init = tableau[bord][y];
-		Tile comp = tableau[x][y];
-		for (int i = 0; i <= 3; i++) {
-			for (int j = 0; j <= 3; j++) {
-				if (x > bord || direction == 1 && x < bord) {
-					int caseValue = init.getTileValue() + comp.getTileValue();
-					if (init.getTileValue() != 0) {
-						score += caseValue;
+//move
+	public void moveDown() { // use count to move the tiles to the right one by one
+		for (int row = 0; row < 4; row++) {
+			int count = 0;
+
+			for (int col = 3; col >= 0; col--)
+
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[row][3 - count].setValue(tableau[row][col].getTileValue());
+					// empty the original tile position after tile is moved
+					if ((3 - count) != col) {
+						tableau[row][col].setValue(0);
+						;
 					}
-					init.setValue(caseValue);
-					comp.setValue(0);
-				} else {
-					if (direction == 1) {
-						bord--;
-					} else {
-						bord++;
-					}
-					moveVert(x, y, direction);
+					count++;
+				}
+
+			}
+
+		}
+
+		for (int row = 0; row < 4; row++) {
+			for (int col = 3; col > 0; col--) {
+				if (tableau[row][col].getTileValue() == tableau[row][col - 1].getTileValue())
+				// add the two tiles with the same value
+				{
+					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row][col - 1].getTileValue());
+					tableau[row][col - 1].setValue(0);
+					// update the score ONCE!
+					int sum = tableau[row][col].getTileValue();
+					score += sum;
+
+					break;
+
 				}
 			}
+		}
+
+		// after adding two tiles, repeat the same first for loop
+		// in this method to move all the tiles to the right side
+		for (int row = 0; row < 4; row++) {
+			int count = 0;
+
+			for (int col = 3; col >= 0; col--)
+
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[row][3 - count].setValue(tableau[row][col].getTileValue());
+					if ((3 - count) != col) {
+						tableau[row][col].setValue(0);
+					}
+					count++;
+				}
+
+			}
 
 		}
-		/*
-		 * if (direction == 0) { if (tableau[x][0] == tableau[x][1] && y == 1) {
-		 * tableau[x][0] = tableau[x][0] + tableau[x][1]; tableau[x][1] = 0; } if
-		 * (tableau[x][y] == tableau[y][y - 1] && y > 1) { for (int j = y - 1; j >= 0;
-		 * j--) { if (!isbusy(x, j - 1)) { tableau[x][j - 1] = tableau[x][y] +
-		 * tableau[x][y - 1]; tableau[x][y] = 0; tableau[x][y - 1] = 0; } else {
-		 * tableau[x][y - 1] = tableau[x][y - 1] + tableau[x][y];
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * if (tableau[x][y] != tableau[x][y - 1]) { for (int j = y; j > 0; j--) { if
-		 * (!isbusy(x, j - 1)) { tableau[x][j - 1] = tableau[x][y]; tableau[x][y] = 0; }
-		 * 
-		 * }
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
+
 	}
 
-	// move left
-	public void left() {
-		for (int i = 0; i <= 3; i++) {
-			bord = 0;
-			for (int j = 0; j <= 3; j++) {
-				if (tableau[i][j].getTileValue() != 0)
-					if (bord <= j)
-						moveHori(i, j, 2);
+	public void moveLeft() { // use count to move the tiles to the top one by one
+		for (int col = 0; col <= 3; col++) {
+			int count = 0;
+
+			for (int row = 0; row <= 3; row++)
+
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[0 + count][col].setValue(tableau[row][col].getTileValue());
+					// empty the original tile position after tile is moved
+					if (0 + count != row) {
+						tableau[row][col].setValue(0);
+					}
+					count++;
+				}
+
+			}
+
+		}
+
+		for (int col = 0; col <= 3; col++) {
+			for (int row = 0; row <= 2; row++) {
+				if (tableau[row][col].getTileValue() == tableau[row + 1][col].getTileValue())
+				// add the two tiles with the same value
+				{
+					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row + 1][col].getTileValue());
+					tableau[row + 1][col].setValue(0);
+					// update the score ONCE!
+					int sum = tableau[row][col].getTileValue();
+					score += sum;
+
+					break;
+
+				}
 			}
 		}
-		displayGrid();
+
+		// after adding two tiles, repeat the same first for loop
+		// in this method to move all the tiles to the top
+		for (int col = 0; col <= 3; col++) {
+			int count = 0;
+
+			for (int row = 0; row <= 3; row++)
+
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[0 + count][col].setValue(tableau[row][col].getTileValue());
+					// empty the original tile position after tile is moved
+					if (0 + count != row) {
+						tableau[row][col].setValue(0);
+					}
+					count++;
+				}
+
+			}
+
+		}
+
 	}
 
-	// move right
-	public void right() {
-		for (int i = 0; i <= 3; i++) {
-			bord = 0;
-			for (int j = 3; j >= 0; j--) {
-				if (tableau[i][j].getTileValue() != 0)
-					if (bord <= j)
-						moveHori(i, j, 3);
+	public void moveRight() { // use count to move the tiles to the bottom
+		// one by one
+		for (int col = 0; col < 4; col++) {
+			int count = 0;
+
+			for (int row = 3; row >= 0; row--)
+
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[3 - count][col].setValue(tableau[row][col].getTileValue()); // empty the original tile
+																						// position after tile is moved
+					if (3 - count != row) {
+						tableau[row][col].setValue(0);
+					}
+					count++;
+				}
+
+			}
+
+		}
+
+		for (int col = 0; col < 4; col++) {
+			for (int row = 3; row > 0; row--) {
+				if (tableau[row][col].getTileValue() == tableau[row - 1][col].getTileValue())
+				// add the two tiles with the same value
+				{
+					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row - 1][col].getTileValue());
+					tableau[row - 1][col].setValue(0);
+					// update the score ONCE!
+					int sum = tableau[row][col].getTileValue();
+					score += sum;
+
+					break;
+
+				}
 			}
 		}
-		displayGrid();
-	}
 
-	// mouvements verticaux
-	private void moveHori(int row, int col, int direction) {
+		// after adding two tiles, repeat the same first for loop
+		// in this method to move all the tiles to the bottom
+		for (int col = 0; col < 4; col++) {
+			int count = 0;
 
-		if (tableau[bord][col].getTileValue() == 0 || tableau[bord][col] == tableau[row][col]) {
-			if (row > bord || (direction == 3 && col < bord)) {
-				int caseValue = tableau[bord][col].getTileValue() + tableau[row][col].getTileValue();
-				if (tableau[bord][col].getTileValue() != 0)
-					score += caseValue;
-				tableau[bord][col].setValue(caseValue);
-				tableau[row][col].setValue(0);
+			for (int row = 3; row >= 0; row--)
+
+			{
+				if (tableau[row][col].getTileValue() != 0) {
+					tableau[3 - count][col].setValue(tableau[row][col].getTileValue());
+					// empty the original tile position after tile is moved
+					if ((3 - count )!= row) {
+						tableau[row][col].setValue(0);
+					}
+					count++;
+				}
+
 			}
-		} else {
-			if (direction == 3) {
-				bord--;
-			} else {
-				bord++;
-			}
-			moveHori(row, col, direction);
+
 		}
+
 	}
-
-	// si on fait un mouvement il faut ajouter la valeur en question si les deux
-	// cases sont les mêmes
-
-	/*
-	 * 0-->UP 1-->DOWN 2-->LEFT 3-->Rigth public void addcase(int key) { switch
-	 * (key) { // UP case 0: for (int i = 0; i < tableau.length; i++) { for (int j =
-	 * 0; j < tableau[0].length; j++) { up(); randomCase(); displayGrid(); } }
-	 * break;
-	 * 
-	 * // down case 1: for (int i = 0; i < tableau.length; i++) { for (int j = 1; j
-	 * < tableau[0].length; j++) { down(); randomCase(); displayGrid(); } }
-	 * 
-	 * break; // left case 2: for (int i = 0; i < tableau.length; i++) { for (int j
-	 * = 1; j < tableau[0].length; j++) { left(); randomCase(); displayGrid(); } }
-	 * 
-	 * break; // right case 3: for (int i = 0; i < tableau.length; i++) { for (int j
-	 * = 1; j < tableau[0].length; j++) { right(); randomCase(); displayGrid(); } }
-	 * 
-	 * break; default: break; } }
-	 */
 
 	public void startGame() {
 
-		tableau[3][3].setValue(2);
-		tableau[3][2].setValue(2);
+		randomCase();
+		randomCase();
 	}
 
 	public void playLoop() {

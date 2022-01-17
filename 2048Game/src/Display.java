@@ -10,7 +10,8 @@ public class Display {
 	// Inits the graphic window
 	Grid grille;
 	FunGraphics display = new FunGraphics(360, 500);
-	GraphicsBitmap image1 = new GraphicsBitmap("/marinipng.png");
+	GraphicsBitmap image1 = new GraphicsBitmap("/colors-featured.jpg");
+	GraphicsBitmap png1 = new GraphicsBitmap("/2048 game.png");
 	int ret;
 
 	// liaison des touches
@@ -74,75 +75,79 @@ public class Display {
 
 	// init displayscore and init
 	private void DisplayTemplate() {
-		display.drawPicture(180, 250, image1);
-		display.drawString(20, 50, "2048 Game With Marini", Color.red, 30);
+		display.drawPicture(100, 100, png1);
+		display.drawFillRect(0, 200, 1000,1000);
+		display.drawFillRect(60, 220, 250, 250);
+		display.drawPicture(185, 345, image1);
+
 	}
 
 	public void displayScore() {
-		display.setColor(Color.cyan);
-		display.drawFillRect(200, 60, 130, 100);
-		display.drawString(210, 100, "SCORE", Color.black, 30);
-		display.drawString(230, 150, grille.displayScore(), Color.black, 30);
+		display.setColor(Color.black);
+		display.drawFillRect(150, 0, 300, 200);
+		display.drawString(210, 100, "SCORE", Color.white, 30);
+		display.drawString(230, 150, grille.displayScore(), Color.white, 30);
 	}
 
 	// display background color for different number
 	private void numberColor() {
+
 		for (int i = 0; i <= 3; i++) {
 			for (int j = 0; j <= 3; j++) {
 				int value = grille.getValue(j, i);
 				switch (value) {
 				case 0:
 					display.setColor(COLOR_EMPTY);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 2:
 					display.setColor(COLOR_2);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 4:
 					display.setColor(COLOR_4);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 
 				case 8:
 					display.setColor(COLOR_8);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 16:
 					display.setColor(COLOR_16);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 32:
 					display.setColor(COLOR_32);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 64:
 					display.setColor(COLOR_64);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 128:
 					display.setColor(COLOR_128);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 256:
 					display.setColor(COLOR_256);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 512:
 					display.setColor(COLOR_512);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 1024:
 					display.setColor(COLOR_1024);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case 2048:
 					display.setColor(COLOR_2048);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				case -1:
 					display.setColor(COLOR_GAME_OVER);
-					display.drawFillRect(10 + (i + 1) * 60, 150 + (j + 1) * 60, 50, 50);
+					display.drawFillRect(10 + (i + 1) * 60, 20 + 150 + (j + 1) * 60, 50, 50);
 					break;
 				default:
 					break;
@@ -159,7 +164,7 @@ public class Display {
 			for (int y = 0; y <= 3; y++) {
 				if (grille.getValue(y, x) != 0) {
 
-					display.drawString(30 - (grille.displayValue(x, y).length() * 4) + (x + 1) * 60, 180 + (y + 1) * 60,
+					display.drawString(30 - (grille.displayValue(x, y).length() * 4) + (x + 1) * 60, 200 + (y + 1) * 60,
 							grille.displayValue(x, y), Color.black, 20);
 				}
 			}
@@ -167,6 +172,7 @@ public class Display {
 	}
 
 	public void render() {
+
 		numberColor();
 		displayGridGraphic(grille);
 		displayScore();

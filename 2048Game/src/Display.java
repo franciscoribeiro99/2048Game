@@ -154,12 +154,13 @@ public class Display {
 
 //affiche les chiffres 
 	private void displayGridGraphic(Grid grille) {
+
 		for (int x = 0; x <= 3; x++) {
 			for (int y = 0; y <= 3; y++) {
 				if (grille.getValue(y, x) != 0) {
 
-					display.drawString(28 + (x + 1) * 60, 180 + (y + 1) * 60, grille.displayValue(x, y), Color.black,
-							20);
+					display.drawString(30 - (grille.displayValue(x, y).length() * 4) + (x + 1) * 60, 180 + (y + 1) * 60,
+							grille.displayValue(x, y), Color.black, 20);
 				}
 			}
 		}

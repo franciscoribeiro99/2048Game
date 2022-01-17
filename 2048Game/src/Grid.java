@@ -158,9 +158,9 @@ public class Grid {
 			for (int col = 0; col < 4; col++) {
 				if (tableau[row][col].getTileValue() != 0) {
 					tableau[row][count].setValue(tableau[row][col].getTileValue());
-
 					if (count != col) {
 						tableau[row][col].setValue(0);
+
 					}
 					count++;
 				}
@@ -169,11 +169,11 @@ public class Grid {
 		for (int row = 0; row < 4; row++) {
 			for (int col = 0; col < 3; col++) {
 				if (tableau[row][col].getTileValue() == tableau[row][col + 1].getTileValue())
-				// add the two tiles with the same value
+
 				{
 					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row][col + 1].getTileValue());
 					tableau[row][col + 1].setValue(0);
-					// update the score ONCE!
+
 					int sum = tableau[row][col].getTileValue();
 					score += sum;
 
@@ -188,8 +188,8 @@ public class Grid {
 
 			{
 				if (tableau[row][col].getTileValue() != 0) {
-					tableau[row][0 + count].setValue(tableau[row][col].getTileValue());
-					// Empty the original tile position once tile is moved
+					tableau[row][count].setValue(tableau[row][col].getTileValue());
+
 					if (count != col) {
 						tableau[row][col].setValue(0);
 					}
@@ -201,8 +201,8 @@ public class Grid {
 
 	}
 
-//move
-	public void moveDown() { // use count to move the tiles to the right one by one
+//move Down
+	public void moveDown() {
 		for (int row = 0; row < 4; row++) {
 			int count = 0;
 
@@ -211,7 +211,7 @@ public class Grid {
 			{
 				if (tableau[row][col].getTileValue() != 0) {
 					tableau[row][3 - count].setValue(tableau[row][col].getTileValue());
-					// empty the original tile position after tile is moved
+					// met à 0 la case
 					if ((3 - count) != col) {
 						tableau[row][col].setValue(0);
 						;
@@ -226,11 +226,11 @@ public class Grid {
 		for (int row = 0; row < 4; row++) {
 			for (int col = 3; col > 0; col--) {
 				if (tableau[row][col].getTileValue() == tableau[row][col - 1].getTileValue())
-				// add the two tiles with the same value
+				// somme deux cases qui ont la meme valeur
 				{
 					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row][col - 1].getTileValue());
 					tableau[row][col - 1].setValue(0);
-					// update the score ONCE!
+					// met à jour le score
 					int sum = tableau[row][col].getTileValue();
 					score += sum;
 
@@ -240,8 +240,7 @@ public class Grid {
 			}
 		}
 
-		// after adding two tiles, repeat the same first for loop
-		// in this method to move all the tiles to the right side
+		// déplace vers le bas
 		for (int row = 0; row < 4; row++) {
 			int count = 0;
 
@@ -262,7 +261,8 @@ public class Grid {
 
 	}
 
-	public void moveLeft() { // use count to move the tiles to the top one by one
+//déplace vers la gauche
+	public void moveLeft() {
 		for (int col = 0; col <= 3; col++) {
 			int count = 0;
 
@@ -270,9 +270,9 @@ public class Grid {
 
 			{
 				if (tableau[row][col].getTileValue() != 0) {
-					tableau[0 + count][col].setValue(tableau[row][col].getTileValue());
-					// empty the original tile position after tile is moved
-					if (0 + count != row) {
+					tableau[count][col].setValue(tableau[row][col].getTileValue());
+
+					if (count != row) {
 						tableau[row][col].setValue(0);
 					}
 					count++;
@@ -285,11 +285,11 @@ public class Grid {
 		for (int col = 0; col <= 3; col++) {
 			for (int row = 0; row <= 2; row++) {
 				if (tableau[row][col].getTileValue() == tableau[row + 1][col].getTileValue())
-				// add the two tiles with the same value
+
 				{
 					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row + 1][col].getTileValue());
 					tableau[row + 1][col].setValue(0);
-					// update the score ONCE!
+
 					int sum = tableau[row][col].getTileValue();
 					score += sum;
 
@@ -299,8 +299,6 @@ public class Grid {
 			}
 		}
 
-		// after adding two tiles, repeat the same first for loop
-		// in this method to move all the tiles to the top
 		for (int col = 0; col <= 3; col++) {
 			int count = 0;
 
@@ -308,8 +306,8 @@ public class Grid {
 
 			{
 				if (tableau[row][col].getTileValue() != 0) {
-					tableau[0 + count][col].setValue(tableau[row][col].getTileValue());
-					// empty the original tile position after tile is moved
+					tableau[count][col].setValue(tableau[row][col].getTileValue());
+
 					if (0 + count != row) {
 						tableau[row][col].setValue(0);
 					}
@@ -322,7 +320,8 @@ public class Grid {
 
 	}
 
-	public void moveRight() { // use count to move the tiles to the bottom
+//déplace vers la droite
+	public void moveRight() {
 		// one by one
 		for (int col = 0; col < 4; col++) {
 			int count = 0;
@@ -331,8 +330,8 @@ public class Grid {
 
 			{
 				if (tableau[row][col].getTileValue() != 0) {
-					tableau[3 - count][col].setValue(tableau[row][col].getTileValue()); // empty the original tile
-																						// position after tile is moved
+					tableau[3 - count][col].setValue(tableau[row][col].getTileValue());
+
 					if (3 - count != row) {
 						tableau[row][col].setValue(0);
 					}
@@ -346,11 +345,11 @@ public class Grid {
 		for (int col = 0; col < 4; col++) {
 			for (int row = 3; row > 0; row--) {
 				if (tableau[row][col].getTileValue() == tableau[row - 1][col].getTileValue())
-				// add the two tiles with the same value
+
 				{
 					tableau[row][col].setValue(tableau[row][col].getTileValue() + tableau[row - 1][col].getTileValue());
 					tableau[row - 1][col].setValue(0);
-					// update the score ONCE!
+
 					int sum = tableau[row][col].getTileValue();
 					score += sum;
 
@@ -360,8 +359,6 @@ public class Grid {
 			}
 		}
 
-		// after adding two tiles, repeat the same first for loop
-		// in this method to move all the tiles to the bottom
 		for (int col = 0; col < 4; col++) {
 			int count = 0;
 
@@ -370,8 +367,8 @@ public class Grid {
 			{
 				if (tableau[row][col].getTileValue() != 0) {
 					tableau[3 - count][col].setValue(tableau[row][col].getTileValue());
-					// empty the original tile position after tile is moved
-					if ((3 - count )!= row) {
+
+					if ((3 - count) != row) {
 						tableau[row][col].setValue(0);
 					}
 					count++;
@@ -390,7 +387,16 @@ public class Grid {
 	}
 
 	public void playLoop() {
-		startGame();
+		do {
+			startGame();
+		} while (gridFinished());
+		if (gridFinished() == true) {
+			if (noMove() == true)
+				System.out.println("gameOVEr");
+
+		}
 	}
+
 }
+
 //test

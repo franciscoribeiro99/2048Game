@@ -6,13 +6,17 @@ import hevs.graphics.FunGraphics;
 import hevs.graphics.utils.GraphicsBitmap;
 
 public class Display {
+	boolean playAgain = false;
 
 	// Inits the graphic window
 	Grid grille;
 	FunGraphics display = new FunGraphics(360, 500);
 	GraphicsBitmap image1 = new GraphicsBitmap("/colors-featured.jpg");
 	GraphicsBitmap png1 = new GraphicsBitmap("/2048 game.png");
+	GraphicsBitmap gameover = new GraphicsBitmap("/GameOver.png");
+	GraphicsBitmap playagain = new GraphicsBitmap("/play again.png");
 	int ret;
+	int enter = 0;
 
 	// liaison des touches
 	public Display(Grid grille) {
@@ -22,39 +26,67 @@ public class Display {
 				int keyCode = e.getKeyCode();
 				switch (keyCode) {
 				case KeyEvent.VK_UP:
+					if (grille.gameOver()) {
+						System.out.println("gamme over");
+						displayGameOver();
+					}
 					grille.moveUp();
-					System.out.println("up");
-					grille.randomCase();
-					render();
-
+					if (!grille.gameOver())
+						render();
 					break;
+				// move up
 				case KeyEvent.VK_DOWN:
+					if (grille.gameOver()) {
+						System.out.println("gamme over");
+						displayGameOver();
+					}
 					grille.moveDown();
-					System.out.println("down");
-					grille.randomCase();
-					render();
-
+					if (!grille.gameOver())
+						render();
 					// handle down
 					break;
 				case KeyEvent.VK_LEFT:
+					if (grille.gameOver()) {
+						System.out.println("gamme over");
+						displayGameOver();
+					}
 					grille.moveLeft();
-					System.out.println("left");
-					grille.randomCase();
-					render();
-
+					if (!grille.gameOver())
+						render();
 					// handle left
 					break;
 				case KeyEvent.VK_RIGHT:
+					if (grille.gameOver()) {
+						System.out.println("gamme over");
+						displayGameOver();
+					}
 					grille.moveRight();
-					System.out.println("right");
-					grille.randomCase();
-					render();
-
+					if (!grille.gameOver())
+						render();
 					// handle right
 					break;
+				case KeyEvent.VK_ENTER:
+					if (grille.gameOver()) {
+						init();
+						grille.reset();
+						render();
+					}
+				case KeyEvent.VK_Q:
+					if (grille.gameOver()) {
+						System.exit(keyCode);
+					}
 				}
+
 			}
 		});
+	}
+
+	public void displayGameOver() {
+		if (grille.gameOver()) {
+			display.drawPicture(200, 150, gameover);
+			display.drawPicture(180, 350, playagain);
+		}
+
 	}
 
 	// color for each case
@@ -76,7 +108,7 @@ public class Display {
 	// init displayscore and init
 	private void DisplayTemplate() {
 		display.drawPicture(100, 100, png1);
-		display.drawFillRect(0, 200, 1000,1000);
+		display.drawFillRect(0, 200, 1000, 1000);
 		display.drawFillRect(60, 220, 250, 250);
 		display.drawPicture(185, 345, image1);
 
@@ -166,6 +198,7 @@ public class Display {
 
 					display.drawString(30 - (grille.displayValue(x, y).length() * 4) + (x + 1) * 60, 200 + (y + 1) * 60,
 							grille.displayValue(x, y), Color.black, 20);
+
 				}
 			}
 		}
@@ -180,8 +213,10 @@ public class Display {
 	}
 
 	public void init() {
+		playAgain = false;
 		display.clear();
 		DisplayTemplate();
 		displayScore();
+
 	}
 }

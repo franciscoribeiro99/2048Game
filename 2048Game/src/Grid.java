@@ -355,7 +355,6 @@ public class Grid {
 			ret = true;
 		else
 			ret = false;
-		playAgain();
 		return ret;
 	}
 
@@ -428,10 +427,6 @@ public class Grid {
 		return ret;
 	}
 
-	public void playAgain() {
-
-	}
-
 	public void startGame() {
 
 		randomCase();
@@ -440,5 +435,3 @@ public class Grid {
 	}
 
 }
-
-//test

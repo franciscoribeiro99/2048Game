@@ -5,7 +5,6 @@ public class Game {
 	Display window = new Display(grille);
 
 	public void play() {
-
 		window.init();
 		grille.startGame();
 		window.render();

@@ -27,7 +27,6 @@ public class Display {
 				switch (keyCode) {
 				case KeyEvent.VK_UP:
 					if (grille.gameOver()) {
-						System.out.println("gamme over");
 						displayGameOver();
 					}
 					grille.moveUp();
@@ -37,7 +36,6 @@ public class Display {
 				// move up
 				case KeyEvent.VK_DOWN:
 					if (grille.gameOver()) {
-						System.out.println("gamme over");
 						displayGameOver();
 					}
 					grille.moveDown();
@@ -47,7 +45,6 @@ public class Display {
 					break;
 				case KeyEvent.VK_LEFT:
 					if (grille.gameOver()) {
-						System.out.println("gamme over");
 						displayGameOver();
 					}
 					grille.moveLeft();
@@ -57,7 +54,6 @@ public class Display {
 					break;
 				case KeyEvent.VK_RIGHT:
 					if (grille.gameOver()) {
-						System.out.println("gamme over");
 						displayGameOver();
 					}
 					grille.moveRight();
